@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LVM — Interativos</title>
+  <style>
+    :root{color-scheme:light dark;--bg:#f6f7f8;--card:#fff;--text:#202124;--muted:#62666d;--border:#d9dadd;--accent:#2457c5}
+    @media(prefers-color-scheme:dark){:root{--bg:#111315;--card:#1c1f22;--text:#f4f5f6;--muted:#b3b8bf;--border:#383c42;--accent:#83a6ff}}
+    *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+    main{max-width:940px;margin:auto;padding:38px 20px 56px}h1{margin:0 0 8px;font-size:clamp(1.8rem,4vw,2.6rem)}
+    .lead{color:var(--muted);font-size:1.05rem;line-height:1.6;max-width:760px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px;margin-top:30px}
+    article{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px}h2{margin:0 0 7px;font-size:1.25rem}.desc{color:var(--muted);line-height:1.5;min-height:70px}
+    .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 14px;border-radius:10px;text-decoration:none;border:1px solid var(--border);color:var(--text);font-weight:650}
+    .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}.btn.disabled{opacity:.55;cursor:not-allowed}.note{margin-top:14px;font-size:.86rem;color:var(--muted)}
+    footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--border);color:var(--muted);font-size:.9rem}
+  </style>
+  <script src="config.js"></script>
+</head>
+<body>
+<main>
+  <h1>LVM — Interativos</h1>
+  <p class="lead">Visualizações matemáticas interativas para explorar diretamente no navegador. O código matemático completo pode ser disponibilizado separadamente no Google Colab.</p>
+
+  <section class="grid">
+    <article>
+      <h2>Trionda</h2>
+      <p class="desc">Explore a correspondência entre planificação, tetraedro e esfera. Arraste para girar, use a roda para zoom e controle a transformação.</p>
+      <div class="actions">
+        <a class="btn primary" href="trionda/">Explorar em 3D</a>
+        <a id="colab-trionda" class="btn" href="#">Abrir no Colab</a>
+      </div>
+      <p id="colab-note" class="note"></p>
+    </article>
+  </section>
+
+  <footer><a id="lvm-link" href="https://lvm.ufms.br/">Voltar ao LVM</a></footer>
+</main>
+<script>
+  const cfg = window.LVM_CONFIG || {};
+  const colab = document.getElementById('colab-trionda');
+  const note = document.getElementById('colab-note');
+  const lvm = document.getElementById('lvm-link');
+  if (cfg.lvmPrincipal) lvm.href = cfg.lvmPrincipal;
+  if (cfg.colabTrionda && /^https?:\/\//i.test(cfg.colabTrionda)) {
+    colab.href = cfg.colabTrionda;
+    colab.target = '_blank';
+    colab.rel = 'noopener';
+    note.textContent = 'O Colab abre em uma nova aba.';
+  } else {
+    colab.classList.add('disabled');
+    colab.setAttribute('aria-disabled','true');
+    colab.addEventListener('click', e => e.preventDefault());
+    note.textContent = 'O link do Colab ainda não foi configurado em config.js.';
+  }
+</script>
+</body>
+</html>
